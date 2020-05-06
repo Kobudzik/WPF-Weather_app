@@ -26,26 +26,17 @@ namespace WeatherApp
         public MainWindow()
         {
             InitializeComponent();
-            string html = string.Empty;
-            string url = @"http://api.openweathermap.org/data/2.5/forecast?q=Tuchow&mode=xml&appid=2517431d46cd54e4f965409583890e1c&cnt=2&units=metric";
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.AutomaticDecompression = DecompressionMethods.GZip;
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                html = reader.ReadToEnd();
-            }
+        
+            string url = WeatherGetter.CreateHTTPRequestURL("Tuchow", 2);
+            XDocument xdoc = WeatherGetter.GetXMLData(url);
 
 
 
-            XDocument xdoc = new XDocument();
-            xdoc = XDocument.Parse(html);
+
+
 
             StringBuilder result = new StringBuilder();
-
 
             var days =
                 from day
@@ -53,17 +44,32 @@ namespace WeatherApp
                 select new
                 {
                     TemperatureValue = day.Element("temperature").Attribute("value").Value,
-                    TemperatureUnit = day.Element("temperature").Attribute("unit").Value
+                    Clouds = day.Element("clouds").Attribute("value").Value,
+                    Humidity = day.Element("humidity").Attribute("value").Value
                 };
-            int curDay = 0;
+
+            List<DayWeather> daysList = new List<DayWeather>();
+
+            //int curDay = 0;
+
             foreach (var day in days)
             {
-                result.AppendFormat("Day: {0} \n", curDay);
-                result.AppendLine(day.ToString());
-                curDay++;
+                daysList.Add(new DayWeather
+                    (
+                    Convert.ToDouble(day.TemperatureValue, System.Globalization.CultureInfo.InvariantCulture),
+                    day.Clouds,
+                    Convert.ToInt32(day.Humidity, System.Globalization.CultureInfo.InvariantCulture)));
+
             }
 
+            foreach (DayWeather day in daysList)
+                result.AppendLine(day.ToString() + "\n");
+
+
+
             myTextBox.Text = result.ToString();
+
+
 
 
 
