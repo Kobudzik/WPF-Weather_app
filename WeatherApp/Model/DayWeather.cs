@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeatherApp
+namespace WeatherApp.Model
 {
     public class DayWeather
     {
          double Temperature;
          string Clouds;
          int Humidity;
-
+        
         public DayWeather(double temperature, string clouds, int humidity)
         {
             Temperature = temperature;
