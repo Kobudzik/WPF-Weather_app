@@ -8,15 +8,17 @@ namespace WeatherApp.Model
 {
     public class DayWeather
     {
-         double Temperature;
-         string Clouds;
-         int Humidity;
-        
-        public DayWeather(double temperature, string clouds, int humidity)
+        public double Temperature { get; set; }
+        public string Clouds { get; set; }
+        public int Humidity { get; set; }
+        public DateTime Date { get; set; }
+
+        public DayWeather(double temperature, string clouds, int humidity, DateTime date)
         {
             Temperature = temperature;
             Clouds = clouds;
             Humidity = humidity;
+            Date = date;
         }
 
         public override string ToString()

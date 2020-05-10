@@ -20,14 +20,16 @@ using System.Xml.Linq;
 
 namespace WeatherApp.Model
 {
-   public class WeatherGetter : INotifyPropertyChanged
+   public class WeatherGetter
     //facade
     {
         string URL;
         XDocument doc;
-
+        public List<DayWeather> daysList = new List<DayWeather>();
+        public bool errorOccured;
         string _city;
         string _days;
+
         public string City
         {
             get { return _city; }
@@ -53,11 +55,13 @@ namespace WeatherApp.Model
            
             if(City.Equals("") || Days.Equals(""))
             {
-                MessageBox.Show("You must provide value!");                
+                MessageBox.Show("You must provide both values!");
+                errorOccured = true;
             }
             else if (!Regex.IsMatch(City, @"^[a-zA-Z]+$"))
             {
                 MessageBox.Show("Use only latin letters in City field!");
+                errorOccured = true;
             }
             else
             { 
@@ -68,11 +72,13 @@ namespace WeatherApp.Model
 
         public void GetXMLData()
         {
-            if(URL==null)
+            if(URL==null && errorOccured == false)
             {
-               MessageBox.Show("Wrong URL passed!");                
+               MessageBox.Show("Empty URL passed!");
+               errorOccured = true;
+
             }
-            else
+            else if (errorOccured == false)
             { 
                 string html = string.Empty;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
@@ -89,11 +95,10 @@ namespace WeatherApp.Model
                 }
                 catch(System.Net.WebException e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show("WEB "+ e.Message);
                 }
 
-                             
-
+                     
                 try
                 {
                     doc= XDocument.Parse(html);
@@ -101,45 +106,54 @@ namespace WeatherApp.Model
 
                 catch ( System.Xml.XmlException e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show("XML "+ e.Message);
                 }
               
             }            
         }
 
 
-        public List<DayWeather> PopulateDayWeatherList(List<DayWeather> passedList)
+        public List<DayWeather> PopulateDayWeatherList()
         {
-            //XML data to linq querry anonymous class
-            var days =
-                from day
-                in doc.Descendants("time")
-                select new
-                {
-                    TemperatureValue = day.Element("temperature").Attribute("value").Value,
-                    Clouds = day.Element("clouds").Attribute("value").Value,
-                    Humidity = day.Element("humidity").Attribute("value").Value
-                };
-
-
-            //linq to list of DayWeather objects            
-            foreach (var day in days)
+            if (errorOccured == false)
             {
-                passedList.Add(new DayWeather
-                    (
-                    Convert.ToDouble(day.TemperatureValue, System.Globalization.CultureInfo.InvariantCulture),
-                    day.Clouds,
-                    Convert.ToInt32(day.Humidity, System.Globalization.CultureInfo.InvariantCulture)));
-            }
-            return passedList;
-        }
+                try
+                {
+                    //XML data to linq querry anonymous class
+                    var days =
+                        from day
+                        in doc.Descendants("time")
+                        select new
+                        {
+                            TemperatureValue = day.Element("temperature").Attribute("value").Value,
+                            Clouds = day.Element("clouds").Attribute("value").Value,
+                            Humidity = day.Element("humidity").Attribute("value").Value
+                        };
 
-        public event PropertyChangedEventHandler PropertyChanged;   //event
-        protected void OnPropertyChanged(string propertyName)   //raising
-        {
-            PropertyChangedEventHandler propertyChanged = PropertyChanged;
-            if (propertyChanged != null)
-                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                    int i = 0;
+                    DateTime dateNow = DateTime.Now;
+                    daysList.Clear();
+                    //linq to list of DayWeather objects            
+                    foreach (var day in days)
+                    {
+                        daysList.Add(new DayWeather
+                            (
+                            Convert.ToDouble(day.TemperatureValue, System.Globalization.CultureInfo.InvariantCulture),
+                            day.Clouds,
+                            Convert.ToInt32(day.Humidity, System.Globalization.CultureInfo.InvariantCulture),
+                            dateNow.AddDays(i).Date));
+                        i++;
+                            
+                    }
+                    return daysList;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+
+            return null;          
         }
     }
 }

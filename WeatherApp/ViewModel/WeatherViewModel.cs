@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +10,7 @@ using System.Xml.Linq;
 using WeatherApp.Model;
 
 
-namespace WeatherApp.ViewModel
+namespace WeatherApp.ViewModel 
 {
     class WeatherViewModel
     {
@@ -19,35 +21,34 @@ namespace WeatherApp.ViewModel
             CreatedWeatherGetter = new WeatherGetter();
         }
 
-        List<DayWeather> daysList = new List<DayWeather>();
-      
+
+        public ObservableCollection<DayWeather> daysObservableCollection;//te dane musimy odświeżac
+
+
+
 
         public void CreateHTTPRequestURL()
         {
-            CreatedWeatherGetter.CreateHTTPRequestURL();            
+            CreatedWeatherGetter.CreateHTTPRequestURL();
         }
 
         public void GetXMLData()
         {
-            
+
             CreatedWeatherGetter.GetXMLData();
-                        
+
         }
 
         public void PopulateDayWeatherList()
         {
-            CreatedWeatherGetter.PopulateDayWeatherList(daysList);            
-        }
+            if (daysObservableCollection != null)
+                daysObservableCollection.Clear();
 
-        public void PrimitiveShow()
-        {
-            foreach(DayWeather day in daysList)
+            if (!CreatedWeatherGetter.errorOccured)
             {
-                MessageBox.Show(day.ToString());
+                daysObservableCollection = new ObservableCollection<DayWeather>(CreatedWeatherGetter.PopulateDayWeatherList());
             }
+            
         }
-
-
-
     }
 }

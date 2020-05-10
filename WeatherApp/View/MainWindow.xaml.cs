@@ -30,7 +30,6 @@ namespace WeatherApp
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = _viewModel;
         }
         
 
@@ -43,9 +42,7 @@ namespace WeatherApp
             _viewModel.CreateHTTPRequestURL();
             _viewModel.GetXMLData();
             _viewModel.PopulateDayWeatherList();
-            _viewModel.PrimitiveShow();
-            
-
+            lvDataBinding.ItemsSource = _viewModel.daysObservableCollection;
         }
 
 

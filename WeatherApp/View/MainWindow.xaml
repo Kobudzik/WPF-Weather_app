@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WeatherApp"        
         xmlns:viewModel="clr-namespace:WeatherApp.ViewModel"
+        xmlns:view="clr-namespace:WeatherApp.View"
         d:DataContext="{d:DesignInstance viewModel:WeatherViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -14,20 +15,31 @@
     </Window.Resources>
     
     <Grid>
-        <TextBox x:Name="myTextBox" HorizontalAlignment="Left" Height="238" Margin="94,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="247" RenderTransformOrigin="0.5,0.5">
-            <TextBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.593"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBox.RenderTransform>
-        </TextBox>
         <Button x:Name="LaunchButton" Content="Button" HorizontalAlignment="Left" Margin="340,45,0,0" VerticalAlignment="Top" Width="75" Click="LaunchButton_Click"/>
         <TextBox x:Name="CityTextBox" HorizontalAlignment="Left" Height="23" Margin="175,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="DaysTextBox" PreviewTextInput="NumberValidationTextBox" HorizontalAlignment="Left" Height="23" Margin="175,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="25,79,0,0" TextWrapping="Wrap" Text="Number of Days" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.042,0.478"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="25,51,0,0" TextWrapping="Wrap" Text="City" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.042,0.478" SpellCheck.IsEnabled="True"/>
+
+
+        <ListView Margin="10,135,10,10" Name="lvDataBinding">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="{Binding Date, StringFormat='{}{0:dd/MM/yyyy}'}"></Run>
+                        <Run Text="- Temperature:"></Run>
+                        <Run Text="{Binding Temperature}"></Run>
+                        <Run Text="°C, "></Run>
+                        <Run Text="Clouds: "></Run>
+                        <Run Text="{Binding Clouds}"></Run>
+                        <Run Text=", Humidity: "></Run>
+                        <Run Text="{Binding Humidity}"></Run>
+                        <Run Text="%."></Run>
+                        
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
     </Grid>
 </Window>
