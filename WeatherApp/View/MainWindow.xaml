@@ -9,11 +9,11 @@
         d:DataContext="{d:DesignInstance viewModel:WeatherViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    
+
     <Window.Resources>
-        <local:ValueConventer x:Key="myConverter"></local:ValueConventer>
+        <viewModel:VisibilityConventer x:Key="visibilityConventer"></viewModel:VisibilityConventer>
     </Window.Resources>
-    
+
     <Grid>
         <Button x:Name="LaunchButton" Content="Button" HorizontalAlignment="Left" Margin="340,45,0,0" VerticalAlignment="Top" Width="75" Click="LaunchButton_Click"/>
         <TextBox x:Name="CityTextBox" HorizontalAlignment="Left" Height="23" Margin="175,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
@@ -35,11 +35,18 @@
                         <Run Text=", Humidity: "></Run>
                         <Run Text="{Binding Humidity}"></Run>
                         <Run Text="%."></Run>
-                        
                     </TextBlock>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <TextBlock HorizontalAlignment ="Left" Margin="25,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Visibility="{Binding CreatedWeatherGetter.ErrorOccured, Converter={StaticResource visibilityConventer}}" IsEnabled="False">
+            <Run  Text="Showing weather for:"> </Run> 
+            <Run Text="{Binding CreatedWeatherGetter.ReturnedCity}"> </Run> 
+             <Run Text=", "> </Run> 
+            <Run Text="{Binding CreatedWeatherGetter.ReturnedCountry}"> </Run>
+        </TextBlock>
+
 
     </Grid>
 </Window>

@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 namespace WeatherApp.Model
 {
     public class DayWeather
-    {
+    {///<remarks>
+     ///After API respond- Weather Getter works to create DayWeather objects. One object is one day
+     ///</remarks>
         public double Temperature { get; set; }
         public string Clouds { get; set; }
         public int Humidity { get; set; }
@@ -21,6 +23,10 @@ namespace WeatherApp.Model
             Date = date;
         }
 
+        /// <summary>
+        /// overrided ToString method- for testing only!
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string result = String.Format("The temerature is equall to '{0}', the clouds are '{1}', and humidity is '{2}'", Temperature, Clouds, Humidity);

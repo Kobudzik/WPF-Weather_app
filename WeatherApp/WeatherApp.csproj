@@ -59,6 +59,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\WeatherGetter.cs" />
     <Compile Include="ValueConventer.cs" />
+    <Compile Include="ViewModel\VisibilityConventer.cs" />
     <Compile Include="ViewModel\WeatherViewModel.cs" />
     <Compile Include="View\WeatherListControll.xaml.cs">
       <DependentUpon>WeatherListControll.xaml</DependentUpon>

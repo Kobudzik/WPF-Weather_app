@@ -21,15 +21,19 @@ using WeatherApp.ViewModel;
 namespace WeatherApp
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml- VIEW
     /// </summary>
     public partial class MainWindow : Window
     {
+        //creates new view model object(which creates new model)
         private readonly WeatherViewModel _viewModel = new WeatherViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
+            //sets data context for view to interact with viewModel
+            DataContext = _viewModel;
+            
         }
         
 
@@ -37,19 +41,30 @@ namespace WeatherApp
 
         private void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
-            _viewModel.CreatedWeatherGetter.City = CityTextBox.Text;
-            _viewModel.CreatedWeatherGetter.Days = DaysTextBox.Text;
+            _viewModel.Reset();
+            _viewModel.SetCity( CityTextBox.Text);
+            _viewModel.SetDays(DaysTextBox.Text);
+
             _viewModel.CreateHTTPRequestURL();
             _viewModel.GetXMLData();
             _viewModel.PopulateDayWeatherList();
+            _viewModel.GetReturnedLocation();
+
             lvDataBinding.ItemsSource = _viewModel.daysObservableCollection;
+
+
+
         }
 
-
+        /// <summary>
+        /// Only lets user enter numbers using Regex
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            Regex regex = new Regex("[^1-9]+");
 
             e.Handled = regex.IsMatch(e.Text);
         }        
