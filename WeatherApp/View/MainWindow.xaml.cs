@@ -33,7 +33,7 @@ namespace WeatherApp
             InitializeComponent();
             //sets data context for view to interact with viewModel
             DataContext = _viewModel;
-            
+
         }
         
 
@@ -49,8 +49,10 @@ namespace WeatherApp
             _viewModel.GetXMLData();
             _viewModel.PopulateDayWeatherList();
             _viewModel.GetReturnedLocation();
-
             lvDataBinding.ItemsSource = _viewModel.daysObservableCollection;
+
+
+
 
 
 
@@ -64,7 +66,7 @@ namespace WeatherApp
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^1-9]+");
+            Regex regex = new Regex("[^0-9]+");
 
             e.Handled = regex.IsMatch(e.Text);
         }        

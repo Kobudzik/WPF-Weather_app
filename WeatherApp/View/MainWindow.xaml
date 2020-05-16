@@ -43,7 +43,7 @@
         <TextBlock HorizontalAlignment ="Left" Margin="25,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Visibility="{Binding CreatedWeatherGetter.ErrorOccured, Converter={StaticResource visibilityConventer}}" IsEnabled="False">
             <Run  Text="Showing weather for:"> </Run> 
             <Run Text="{Binding CreatedWeatherGetter.ReturnedCity}"> </Run> 
-             <Run Text=", "> </Run> 
+            <Run Text="-"> </Run> 
             <Run Text="{Binding CreatedWeatherGetter.ReturnedCountry}"> </Run>
         </TextBlock>
 
