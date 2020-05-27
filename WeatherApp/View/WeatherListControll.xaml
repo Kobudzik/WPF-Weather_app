@@ -5,24 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WeatherApp.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="300"
+             d:DesignWidth="400">
+    
+    
     <UserControl.Resources>
         <DataTemplate x:Key="WeatherListTemplate">
             <TextBlock>
+                <Run Text="Helo"></Run>
                 <Run Text="{Binding Temperature}"></Run>
                 <Run Text="{Binding Clouds}"></Run>
                 <Run Text="{Binding Humidity}"></Run>
-            </TextBlock>
+                </TextBlock>
         </DataTemplate>
     </UserControl.Resources>
-    
-    <Grid>
-        <Border BorderThickness="1" BorderBrush="Blue" CornerRadius="6,0,0,0" Margin="0,0,40,0">
-            <StackPanel Margin="20">
-                <TextBlock Text="Weather" Margin="0,20,0,0"/>
-                <ListView ItemsSource="{Binding viewModel.daysObservableCollection}" ItemTemplate="{StaticResource WeatherListTemplate}" Margin="0,20,0,0"/>
-            </StackPanel>
-        </Border>
 
-    </Grid>
+    <Border BorderThickness="1" BorderBrush="Blue" CornerRadius="6,0,0,0" Margin="0,0,40,0">
+        <StackPanel Margin="20">
+
+            <TextBlock Text="{Binding TeamName}" ></TextBlock>
+
+            <TextBlock Text="Starting Players" Margin="0,20,0,0"/>
+            <ListView ItemsSource="{Binding }" Margin="0,20,0,0"/>
+        </StackPanel>
+    </Border>
+
+
+
+
 </UserControl>

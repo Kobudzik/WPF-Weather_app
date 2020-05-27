@@ -41,15 +41,19 @@ namespace WeatherApp
 
         private void LaunchButton_Click(object sender, RoutedEventArgs e)
         {
+            
             _viewModel.Reset();
             _viewModel.SetCity( CityTextBox.Text);
             _viewModel.SetDays(DaysTextBox.Text);
-
             _viewModel.CreateHTTPRequestURL();
             _viewModel.GetXMLData();
             _viewModel.PopulateDayWeatherList();
             _viewModel.GetReturnedLocation();
-            lvDataBinding.ItemsSource = _viewModel.daysObservableCollection;
+            _viewModel.checkViewed();
+            LVForDataBinding.ItemsSource = _viewModel.daysObservableCollection;
+            lastVievedLV.ItemsSource = _viewModel.lastViewedObservableCollection;
+
+
 
 
 
@@ -69,6 +73,11 @@ namespace WeatherApp
             Regex regex = new Regex("[^0-9]+");
 
             e.Handled = regex.IsMatch(e.Text);
-        }        
+        }
+
+        private void lastVievedLV_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CityTextBox.Text = lastVievedLV.SelectedItem.ToString();
+        }
     }
 }

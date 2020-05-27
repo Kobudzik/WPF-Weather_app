@@ -22,6 +22,8 @@ namespace WeatherApp.ViewModel
         ///holds model's WeatherGetter reference
         ///</summary>
         public WeatherGetter CreatedWeatherGetter { get; set; }
+        public LastViewed CreatedLastViewed { get; set; }
+
 
         /// <summary>
         /// Constructor- creates new WeatherGetter model object
@@ -29,6 +31,7 @@ namespace WeatherApp.ViewModel
         public WeatherViewModel()
         {
             CreatedWeatherGetter = new WeatherGetter();
+            CreatedLastViewed = new LastViewed();
         }
 
         /// <summary>
@@ -52,6 +55,8 @@ namespace WeatherApp.ViewModel
         /// Object that user will see in view's list view
         /// </summary>
         public ObservableCollection<DayWeather> daysObservableCollection;//te dane musimy odświeżac
+        public ObservableCollection<String> lastViewedObservableCollection;
+        
 
 
         /// <summary>
@@ -108,5 +113,18 @@ namespace WeatherApp.ViewModel
             CreatedWeatherGetter.GetReturnedLocation();
         }
 
+
+        public void checkViewed()
+        {
+            lastViewedObservableCollection = new ObservableCollection<string>();
+            CreatedLastViewed.checkViewed(CreatedWeatherGetter.ErrorOccured, CreatedWeatherGetter.City);
+
+            lastViewedObservableCollection.Clear();
+
+            foreach (string input in CreatedLastViewed.lastViewedInSession)
+            {
+                lastViewedObservableCollection.Add(input);            
+            }        
+        }
     }
 }
