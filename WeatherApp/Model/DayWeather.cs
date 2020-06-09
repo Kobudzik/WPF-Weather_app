@@ -13,14 +13,15 @@ namespace WeatherApp.Model
         public double Temperature { get; set; }
         public string Clouds { get; set; }
         public int Humidity { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
+
 
         public DayWeather(double temperature, string clouds, int humidity, DateTime date)
         {
             Temperature = temperature;
             Clouds = clouds;
             Humidity = humidity;
-            Date = date;
+            Date = $"{date.Day.ToString()}/{date.Month.ToString()}/{ date.Year.ToString()}";
         }
 
         /// <summary>

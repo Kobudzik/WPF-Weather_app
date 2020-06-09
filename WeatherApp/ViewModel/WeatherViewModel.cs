@@ -10,14 +10,14 @@ using System.Xml.Linq;
 using WeatherApp.Model;
 
 
-namespace WeatherApp.ViewModel 
+namespace WeatherApp.ViewModel
 {
-    class WeatherViewModel
+    class WeatherViewModel : INotifyPropertyChanged//ten interfejs 
     {
         /// <remarks>
         /// Provides communication between view and model
         /// </remarks>
-      
+
         ///<summary>
         ///holds model's WeatherGetter reference
         ///</summary>
@@ -38,6 +38,7 @@ namespace WeatherApp.ViewModel
         public void SetCity(string city)
         {
             CreatedWeatherGetter.City = city;
+
         }
 
         /// <summary>
@@ -52,7 +53,17 @@ namespace WeatherApp.ViewModel
         /// Object that user will see in view's list view
         /// </summary>
         public ObservableCollection<DayWeather> daysObservableCollection;//te dane musimy odświeżac
+        private DayWeather firstDay;
 
+        public DayWeather FirstDay
+        {
+            get { return firstDay; }
+            set
+            {
+                firstDay = value;
+                OnPropertyChanged(nameof(FirstDay));
+            }
+        }
 
         /// <summary>
         /// Using ViewModel's reference to model- restores default app state
@@ -93,12 +104,14 @@ namespace WeatherApp.ViewModel
                 try
                 {
                     daysObservableCollection = new ObservableCollection<DayWeather>(CreatedWeatherGetter.PopulateDayWeatherList());
+                    FirstDay = daysObservableCollection.FirstOrDefault();
+                    daysObservableCollection.RemoveAt(0);
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show("VIEWMODEL: " + e.Message);
                 }
-            }            
+            }
         }
         /// <summary>
         /// Using ViewModel's reference to model writes returned location to let user know what hes seeing
@@ -108,5 +121,14 @@ namespace WeatherApp.ViewModel
             CreatedWeatherGetter.GetReturnedLocation();
         }
 
+
+        /// <summary>
+        /// Used for data refreshing
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

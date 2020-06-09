@@ -49,10 +49,10 @@ namespace WeatherApp.Model
         /// <summary>
         /// holds data converted from XML (doc file) into a Llist form
         /// </summary>
-       
-      
-       
-        
+
+
+
+
         /// <summary>
         /// used to stop working if something wrong happened, also used for displaing returned country and location from API
         /// </summary>
@@ -92,7 +92,7 @@ namespace WeatherApp.Model
         }
 
 
-        string _city="";
+        string _city = "";
         /// <summary>
         /// City entered by user
         /// </summary>
@@ -105,8 +105,8 @@ namespace WeatherApp.Model
             }
         }
 
-       
-        string _days="";
+
+        string _days = "";
         /// <summary>
         /// Days entered by user
         /// </summary>
@@ -136,8 +136,8 @@ namespace WeatherApp.Model
         /// </summary>
         public void CreateHTTPRequestURL()
         {
-           
-            if(City.Equals("") || Days.Equals(""))
+
+            if (City.Equals("") || Days.Equals(""))
             {
                 MessageBox.Show("You must provide both values!", "ERROR!");
                 ErrorOccured = true;
@@ -148,8 +148,8 @@ namespace WeatherApp.Model
                 ErrorOccured = true;
             }
             else
-            { 
-                URL = string.Format(@"http://api.openweathermap.org/data/2.5/forecast?q="+ City + "&mode=xml&appid=2517431d46cd54e4f965409583890e1c&cnt=" + Days + "&units=metric");
+            {
+                URL = string.Format(@"http://api.openweathermap.org/data/2.5/forecast?q=" + City + "&mode=xml&appid=2517431d46cd54e4f965409583890e1c&cnt=" + Days + "&units=metric");
                 ErrorOccured = false;
             }
         }
@@ -159,14 +159,14 @@ namespace WeatherApp.Model
         /// </summary>
         public void GetXMLData()
         {
-            if(URL==null && ErrorOccured == false)
+            if (URL == null && ErrorOccured == false)
             {
-               MessageBox.Show("Empty URL passed!");
-               ErrorOccured = true;
+                MessageBox.Show("Empty URL passed!");
+                ErrorOccured = true;
 
             }
             else if (ErrorOccured == false)
-            { 
+            {
                 string html = string.Empty;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
 
@@ -180,25 +180,25 @@ namespace WeatherApp.Model
                         html = reader.ReadToEnd();
                     }
                 }
-                catch(System.Net.WebException e)
+                catch (System.Net.WebException e)
                 {
-                    MessageBox.Show("MODEL- WEB: "+ e.Message,"ERROR!");
+                    MessageBox.Show("MODEL- WEB: " + e.Message, "ERROR!");
                     ErrorOccured = true;
                 }
 
-                     
+
                 try
                 {
-                    doc= XDocument.Parse(html);
+                    doc = XDocument.Parse(html);
                 }
 
-                catch ( System.Xml.XmlException e)
+                catch (System.Xml.XmlException e)
                 {
-                    if(!ErrorOccured)
-                        MessageBox.Show("MODEL- XML: "+ e.Message, "ERROR!");
+                    if (!ErrorOccured)
+                        MessageBox.Show("MODEL- XML: " + e.Message, "ERROR!");
                 }
-              
-            }            
+
+            }
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace WeatherApp.Model
 
                     int i = 0;
                     DateTime dateNow = DateTime.Now;
-                    
+
                     //linq to list of DayWeather objects            
                     foreach (var day in days)
                     {
@@ -236,7 +236,7 @@ namespace WeatherApp.Model
                             Convert.ToInt32(day.Humidity, System.Globalization.CultureInfo.InvariantCulture),
                             dateNow.AddDays(i).Date));
                         i++;
-                            
+
                     }
                     return daysList;
                 }
@@ -244,8 +244,8 @@ namespace WeatherApp.Model
                 {
                     MessageBox.Show("List populating error: " + e.Message, "ERROR!");
                 }
-            }      
-            return null;          
+            }
+            return null;
         }
 
         /// <summary>
@@ -267,8 +267,8 @@ namespace WeatherApp.Model
                             Country = location.Element("country").Value
                         };
 
-                    ReturnedCity=  loc.First().City;
-                    ReturnedCountry= loc.First().Country;
+                    ReturnedCity = loc.First().City;
+                    ReturnedCountry = loc.First().Country;
                 }
                 catch (Exception e)
                 {
