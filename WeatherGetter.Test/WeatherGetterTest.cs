@@ -13,12 +13,25 @@ namespace WeatherGetterTest
         {
             //arrange
             WeatherGetter getter = new WeatherGetter();
+            getter.City = "Katowice";
+            getter.Days = "5";
 
+            WeatherGetter badDay = new WeatherGetter();
+            badDay.City = "Katowice";
+            badDay.Days = "-5";
+
+            WeatherGetter badCity = new WeatherGetter();
+            badDay.City = "MiastoPlacków";
+            badDay.Days = "5";
             //act
             getter.CreateHTTPRequestURL();
+            badDay.CreateHTTPRequestURL();
+            badDay.CreateHTTPRequestURL();
             //assert
-            Assert.IsTrue(getter.ErrorOccured);
-            
+            Assert.IsFalse(getter.ErrorOccured);
+            Assert.IsTrue(badDay.ErrorOccured);
+            Assert.IsTrue(badCity.ErrorOccured);
+
         }
 
 
@@ -28,12 +41,30 @@ namespace WeatherGetterTest
         {
             //arrange
             WeatherGetter getter = new WeatherGetter();
+            getter.City = "Katowice";
+            getter.Days = "5";
 
+            WeatherGetter badDay = new WeatherGetter();
+            badDay.City = "Katowice";
+            badDay.Days = "5sdas";
+
+            WeatherGetter badCity = new WeatherGetter();
+            badDay.City = "MiastoPlacków";
+            badDay.Days = "5";
 
             //act
+
+            getter.CreateHTTPRequestURL();
+            badDay.CreateHTTPRequestURL();
+            badCity.CreateHTTPRequestURL();
+
             getter.GetXMLData();
+            badDay.GetXMLData();
+            badCity.GetXMLData();
             //assert
-            Assert.IsTrue(getter.ErrorOccured);
+            Assert.IsFalse(getter.ErrorOccured);
+            Assert.IsTrue(badDay.ErrorOccured);
+            Assert.IsTrue(badCity.ErrorOccured);
 
 
         }

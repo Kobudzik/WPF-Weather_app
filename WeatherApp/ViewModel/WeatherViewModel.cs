@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,20 +11,18 @@ using System.Xml.Linq;
 using WeatherApp.Model;
 
 
-namespace WeatherApp.ViewModel 
+namespace WeatherApp.ViewModel
 {
-    class WeatherViewModel
+    class WeatherViewModel : INotifyPropertyChanged//ten interfejs 
     {
         /// <remarks>
         /// Provides communication between view and model
         /// </remarks>
-      
+
         ///<summary>
         ///holds model's WeatherGetter reference
         ///</summary>
         public WeatherGetter CreatedWeatherGetter { get; set; }
-        public LastViewed CreatedLastViewed { get; set; }
-
 
         /// <summary>
         /// Constructor- creates new WeatherGetter model object
@@ -31,7 +30,6 @@ namespace WeatherApp.ViewModel
         public WeatherViewModel()
         {
             CreatedWeatherGetter = new WeatherGetter();
-            CreatedLastViewed = new LastViewed();
         }
 
         /// <summary>
@@ -41,6 +39,7 @@ namespace WeatherApp.ViewModel
         public void SetCity(string city)
         {
             CreatedWeatherGetter.City = city;
+
         }
 
         /// <summary>
@@ -55,8 +54,21 @@ namespace WeatherApp.ViewModel
         /// Object that user will see in view's list view
         /// </summary>
         public ObservableCollection<DayWeather> daysObservableCollection;//te dane musimy odświeżac
-        public ObservableCollection<String> lastViewedObservableCollection;
-        
+
+        //tutaj klasa
+        private DayWeather firstDay;
+
+
+
+        public DayWeather FirstDay
+        {
+            get { return firstDay; }
+            set
+            {
+                firstDay = value;
+                OnPropertyChanged(nameof(FirstDay));
+            }
+        }
 
 
         /// <summary>
@@ -65,6 +77,7 @@ namespace WeatherApp.ViewModel
         public void Reset()
         {
             CreatedWeatherGetter.Reset();
+            //FirstDay = null;//need to be fixed in future
         }
 
         /// <summary>
@@ -91,19 +104,24 @@ namespace WeatherApp.ViewModel
         public void PopulateDayWeatherList()
         {
             if (daysObservableCollection != null)
+            {
                 daysObservableCollection.Clear();
+                FirstDay = null;
+            }
 
             if (!CreatedWeatherGetter.ErrorOccured)
             {
                 try
                 {
                     daysObservableCollection = new ObservableCollection<DayWeather>(CreatedWeatherGetter.PopulateDayWeatherList());
+                    FirstDay = daysObservableCollection.FirstOrDefault();
+                    daysObservableCollection.RemoveAt(0);
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show("VIEWMODEL: " + e.Message);
                 }
-            }            
+            }
         }
         /// <summary>
         /// Using ViewModel's reference to model writes returned location to let user know what hes seeing
@@ -114,17 +132,13 @@ namespace WeatherApp.ViewModel
         }
 
 
-        public void checkViewed()
+        /// <summary>
+        /// Used for data refreshing
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            lastViewedObservableCollection = new ObservableCollection<string>();
-            CreatedLastViewed.checkViewed(CreatedWeatherGetter.ErrorOccured, CreatedWeatherGetter.City);
-
-            lastViewedObservableCollection.Clear();
-
-            foreach (string input in CreatedLastViewed.lastViewedInSession)
-            {
-                lastViewedObservableCollection.Add(input);            
-            }        
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

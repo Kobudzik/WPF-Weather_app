@@ -1,0 +1,85 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:cov="clr-namespace:WeatherApp.Model.Converters"
+                    xmlns:local="clr-namespace:WeatherApp.View.ResourceDictionary">
+    <!--this template gets data from WeatherListControl-->
+    <!--bind converter to key name-->
+    <cov:WeatherImageConverter x:Key="WeatherConventer" />
+    <cov:TemperatureImageConverter x:Key="TemperatureConventer" />
+    <!--Template for each day in WeatherWindow->ItemsControl->ItemTemplate-->
+    <DataTemplate x:Key="WeatherAppXAML"
+                  >
+        <!--style each template-->
+        <Border CornerRadius="25"
+                Width="200"
+                Height="250"
+                BorderThickness="2"
+                BorderBrush="#3e5bed"
+                Margin="5 5">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15"
+                                  Direction="-90"
+                                  RenderingBias="Quality"
+                                  ShadowDepth="2" />
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid x:Name="G_Day">
+                    <!--binds date to model property-->
+                    <TextBlock Text="{Binding Date}"
+                               FontSize="22"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+
+                </Grid>
+                <Grid Grid.Row="1">
+                    <!--show the image from actual day based on clouds property from model,
+                    passess from converter-->
+                    <Image Source="{Binding Clouds, Converter={StaticResource WeatherConventer}}" />
+                </Grid>
+                <Grid Grid.Row="2"
+                      HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <!--show static picture from converter, binds temp to model prop-->
+                    <Image Height="40"
+                           Width="30"
+                           
+                           Source="/WeatherApp;component/Resources/Image/hot.png"  />
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Temperature}"
+                               FontSize="22"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+                </Grid>
+                <Grid Grid.Row="3"
+                      HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <!--show the image from actual day based on humidity property from model,
+                    passess from converter-->
+                    <Image Height="40"
+                           Source="/WeatherApp;component/Resources/Image/humidity.png" />
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Humidity}"
+                               FontSize="22"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+                </Grid>
+            </Grid>
+        </Border>
+
+
+    </DataTemplate>
+
+</ResourceDictionary>
