@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,7 +54,11 @@ namespace WeatherApp.ViewModel
         /// Object that user will see in view's list view
         /// </summary>
         public ObservableCollection<DayWeather> daysObservableCollection;//te dane musimy odświeżac
+
+        //tutaj klasa
         private DayWeather firstDay;
+
+
 
         public DayWeather FirstDay
         {
@@ -65,12 +70,14 @@ namespace WeatherApp.ViewModel
             }
         }
 
+
         /// <summary>
         /// Using ViewModel's reference to model- restores default app state
         /// </summary>
         public void Reset()
         {
             CreatedWeatherGetter.Reset();
+            //FirstDay = null;//need to be fixed in future
         }
 
         /// <summary>
@@ -97,7 +104,10 @@ namespace WeatherApp.ViewModel
         public void PopulateDayWeatherList()
         {
             if (daysObservableCollection != null)
+            {
                 daysObservableCollection.Clear();
+                FirstDay = null;
+            }
 
             if (!CreatedWeatherGetter.ErrorOccured)
             {

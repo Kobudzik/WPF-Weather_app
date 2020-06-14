@@ -23,6 +23,8 @@ namespace WeatherApp.Model
             Humidity = humidity;
             Date = $"{date.Day.ToString()}/{date.Month.ToString()}/{ date.Year.ToString()}";
         }
+        
+
 
         /// <summary>
         /// overrided ToString method- for testing only!
