@@ -65,7 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\BindingClass.cs" />
+    <Compile Include="Model\Converters\HumidityImageConverter.cs" />
     <Compile Include="Model\Converters\TemperatureImageConverter.cs" />
     <Compile Include="Model\Converters\WeatherImageConverter.cs" />
     <Compile Include="Model\WeatherGetter.cs" />

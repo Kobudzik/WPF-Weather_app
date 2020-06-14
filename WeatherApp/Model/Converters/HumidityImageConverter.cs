@@ -8,13 +8,13 @@ using System.Windows.Data;
 
 namespace WeatherApp.Model.Converters
 {
-   
-    class TemperatureImageConverter : IValueConverter
+    
+    class HumidityImageConverter : IValueConverter
     {
-        //always return same picture, which is temp
+        //always return same picture, which is humidity
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var pack = "pack://application:,,,/WeatherApp;component/Resources/Image/hot.png";
+            var pack = "pack://application:,,,/WeatherApp;component/Resources/Image/humidity.png";
             return pack;
         }
         //default error

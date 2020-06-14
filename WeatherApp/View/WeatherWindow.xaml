@@ -19,6 +19,7 @@
         <cov:WeatherImageConverter x:Key="WeatherConventer" />
         <!--bind converter to key name-->
         <cov:TemperatureImageConverter x:Key="TemperatureConventer" />
+        <cov:HumidityImageConverter x:Key="HumidityConverter"/>
         <!--bind converter to key name-->
         <ItemsPanelTemplate x:Key="PanelDlaElementow">
             <StackPanel Orientation="Horizontal" />
@@ -151,7 +152,7 @@
                             show static picture-->
                             <Image Height="40"
                                    Width="30"
-                                   Source="/WeatherApp;component/Resources/Image/hot.png" />
+                                   Source="{Binding FirstDay.Temperature, Converter={StaticResource TemperatureConventer}}"/>
                             <!--binded to FirstDay property in WeatherViewModel-->
 
                             <TextBlock Grid.Column="1"
@@ -165,7 +166,7 @@
                             <!--bind to humidity propert of model,
                             show static picture-->
                             <Image Height="40"
-                                   Source="/WeatherApp;component/Resources/Image/humidity.png" />
+                                   Source="{Binding FirstDay.Humidity, Converter={StaticResource HumidityConverter}}"/>
                             <TextBlock Grid.Column="1"
                                        Text="{Binding FirstDay.Humidity}"
                                        FontSize="22"
