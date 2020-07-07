@@ -19,7 +19,7 @@ namespace WeatherApp.ViewModel
         /// <param name="targetType">forced by interface</param>
         /// <param name="parameter">forced by interface</param>
         /// <param name="culture">forced by interface</param>
-        /// <returns> Visibility.Collapsed if true, .visible if false</returns>
+        /// <returns> Visibility.Collapsed if true, and .Visible if false</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((value is bool) && ((bool)value) == true)
