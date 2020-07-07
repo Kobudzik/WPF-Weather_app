@@ -3,11 +3,20 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WeatherApp.Model;
 
 
+
+
+
+
+
 namespace WeatherGetterTest
 {
+    ///<remarks> class used to convert view's visibility</remarks>
     [TestClass]
     public class WeatherGetterTest
     {
+        /// <summary>
+        /// Tests CreateHTTPRequestURL method by providing various days
+        /// </summary>
         [TestMethod]
         public void CreateHTTPRequestURL_EmptyCityDays_ErrorTrue()
         {
@@ -35,7 +44,9 @@ namespace WeatherGetterTest
         }
 
 
-
+        /// <summary>
+        /// Tests GetXMLData_TEST_EmptyURL_ErrorTrue method by providing various days
+        /// </summary>
         [TestMethod]
         public void GetXMLData_TEST_EmptyURL_ErrorTrue()
         {

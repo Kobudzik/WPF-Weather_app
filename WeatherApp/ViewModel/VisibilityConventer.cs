@@ -9,9 +9,10 @@ using System.Windows.Data;
 
 namespace WeatherApp.ViewModel
 {
+    ///<remarks> class used to convert view's visibility</remarks>
     class VisibilityConventer : IValueConverter
     {
-        ///<remarks> class used to convert view's visibility</remarks>
+        
         /// <summary>
         /// converts bool to visibility
         /// </summary>

@@ -18,14 +18,19 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 
+
 namespace WeatherApp.Model
-{
-    public class WeatherGetter : INotifyPropertyChanged
+{ 
     ///<remarks>
     //////API facade- this class translates user input to API request and also convert recived data into XML and then LIST
     ///</remarks>
+    public class WeatherGetter : INotifyPropertyChanged
+   
 
     {
+        /// <summary>
+        /// List of DayWeather objects
+        /// </summary>
         public List<DayWeather> daysList;
 
         /// <summary>
@@ -48,9 +53,7 @@ namespace WeatherApp.Model
         /// </summary>
         XDocument doc;
 
-        /// <summary>
-        /// holds data converted from XML (doc file) into a Llist form
-        /// </summary>
+
 
 
 
@@ -69,8 +72,14 @@ namespace WeatherApp.Model
             }
         }
 
+        /// <summary>
+        /// private backing field containing returned country from API
+        /// </summary>
         string _returnedCountry;
 
+        /// <summary>
+        /// public Property field containing returned country from API- set fires off OnPropChanged event
+        /// </summary>
         public string ReturnedCity
         {
             get { return _returnedCity; }
@@ -81,8 +90,14 @@ namespace WeatherApp.Model
             }
         }
 
+        /// <summary>
+        /// private backing field containing returned city from API
+        /// </summary>
         string _returnedCity;
 
+        /// <summary>
+        /// public Property field containing returned city from API- set fires off OnPropChanged event
+        /// </summary>
         public string ReturnedCountry
         {
             get { return _returnedCountry; }
@@ -93,10 +108,17 @@ namespace WeatherApp.Model
             }
         }
 
-
-        string _city = "";
         /// <summary>
-        /// City entered by user
+        /// private backing field containing City entered by use
+        /// </summary>
+        string _city = "";
+
+
+
+
+
+        /// <summary>
+        ///public Property field - City entered by user
         /// </summary>
         public string City
         {
@@ -108,9 +130,14 @@ namespace WeatherApp.Model
         }
 
 
-        string _days = "";
         /// <summary>
-        /// Days entered by user
+        /// private backing field containing days entered by user
+        /// </summary>
+        string _days = "";
+
+
+        /// <summary>
+        /// public Property field - Days entered by user
         /// </summary>
         public string Days
         {
@@ -131,10 +158,10 @@ namespace WeatherApp.Model
         public void Reset()
         {
             ErrorOccured = true;
-            daysList.Clear(); //clear data
-            
-            
+            daysList.Clear(); //clear data         
         }
+
+
 
         /// <summary>
         /// generates API request using user given parameters
@@ -210,7 +237,7 @@ namespace WeatherApp.Model
         /// converts XML data into anonymous class- holds TemperatureValue, Clouds, Humidity
         /// then creates dayweather objects from anonymous class
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Returns list of DayWeather objects from API</returns>
         public List<DayWeather> PopulateDayWeatherList()
         {
             if (ErrorOccured == false)
@@ -284,8 +311,12 @@ namespace WeatherApp.Model
         }
 
         /// <summary>
-        /// Used for data refreshing
+        /// Event Used for data refreshing
         /// </summary>
+        /// <returns>
+        /// returns PropertyChangedEventHandler
+        /// </returns>
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

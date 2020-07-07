@@ -11,13 +11,15 @@ using System.Xml.Linq;
 using WeatherApp.Model;
 
 
+
 namespace WeatherApp.ViewModel
 {
-    class WeatherViewModel : INotifyPropertyChanged//ten interfejs 
+    /// <remarks>
+    /// Provides communication between view and model
+    /// </remarks>
+    class WeatherViewModel : INotifyPropertyChanged
     {
-        /// <remarks>
-        /// Provides communication between view and model
-        /// </remarks>
+
 
         ///<summary>
         ///holds model's WeatherGetter reference
@@ -35,7 +37,7 @@ namespace WeatherApp.ViewModel
         /// <summary>
         /// Using ViewModel's reference to model sets city property
         /// </summary>
-        /// <param name="city"></param>
+        /// <param name="city"> City that user entered</param>
         public void SetCity(string city)
         {
             CreatedWeatherGetter.City = city;
@@ -45,6 +47,7 @@ namespace WeatherApp.ViewModel
         /// <summary>
         /// Using ViewModel's reference to model sets days property
         /// </summary>
+        /// <param name="days">Days that user entered</param>
         public void SetDays(string days)
         {
             CreatedWeatherGetter.Days = days;
@@ -55,17 +58,20 @@ namespace WeatherApp.ViewModel
         /// </summary>
         public ObservableCollection<DayWeather> daysObservableCollection;//te dane musimy odświeżac
 
-        //tutaj klasa
-        private DayWeather firstDay;
+        /// <summary>
+        /// private backing field- first object that will be bigger than the rest
+        /// </summary>
+        private DayWeather _firstDay;
 
-
-
+        /// <summary>
+        /// public Property- first object that will be bigger than the rest; setting fires of OnPropertyChanged event
+        /// </summary>
         public DayWeather FirstDay
         {
-            get { return firstDay; }
+            get { return _firstDay; }
             set
             {
-                firstDay = value;
+                _firstDay = value;
                 OnPropertyChanged(nameof(FirstDay));
             }
         }
