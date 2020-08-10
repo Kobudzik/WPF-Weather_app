@@ -2,7 +2,7 @@
 This is a WPF app that let's you check weather for specified location and time. All weather informations come from OpenWeatherMap's API.
     
     
-##Technologies and programming languages
+## Technologies and programming languages
 * .NET WPF
 * XAML
 * XML
