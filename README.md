@@ -17,5 +17,5 @@ This is a WPF app that let's you check weather for specified location and time. 
 * displaying different images for each day depending of weather
 
 ## Screenshot
-This is how weather is displayed after selecting parameters.
+#### This is how weather is displayed after selecting parameters:
 ![Weather App screenshot](https://i.ibb.co/QYJdSt9/Weather-App.png)
